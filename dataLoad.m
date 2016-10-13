@@ -1,30 +1,38 @@
 function data = dataLoad(filename)
 
-% file directory skal �ndres og laves beder
-cd('C:\Users\Kristofer Pedersen\Documents\MATLAB\GitHub\Bacteria-Data-Analysis\Bacteria');
+%error message
+    fid = fopen(filename);
+if fid == -1
+        disp('404 file not found');
+        error = imread('error404.jpg');
+        image(error);
 
-table = readtable(filename);
-table=[table];
+else
+    table = readtable(filename);
 
-index = zeros(height(table),1);
+    % find temperetures outside of range
 
+    tindex = table{:,1}>60 | table{:,1}<10;
 
-% remove temperetures outside of range
+    table(tindex,:)
 
-tindex = table{:,1}>60 | table{:,1}<10;
+    % find invalid Growth rate
 
-table(tindex,:)
+    gindex = table{:,2}<0;
 
-% remove invalid Growth rate
+    table(gindex,:)
 
-gindex = table{:,2}<0;
+    % find invalid bacteria type
 
-table(gindex,:)
+    bindex = table{:,3}>4 | table{:,3}<1;
 
-% remove invalid bacteria type
+    table(bindex,:)
 
-bindex = table{:,3}>4 | table{:,3}<1;
+    % remove all invalid data
 
-table(bindex,:)
+    index = table{:,1} < 60 & table{:,1} > 10 & table{:,2} >= 0 & table{:,3} <= 4 & table{:,3} >= 1;
+
+    data = table(index,:);
+end
 
 end
