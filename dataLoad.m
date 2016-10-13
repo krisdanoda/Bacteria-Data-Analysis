@@ -1,5 +1,6 @@
 function data = dataLoad(filename)
-pwd
+
+% file directory skal �ndres og laves beder
 cd('C:\Users\Kristofer Pedersen\Documents\MATLAB\GitHub\Bacteria-Data-Analysis\Bacteria');
 
 table = readtable(filename);
