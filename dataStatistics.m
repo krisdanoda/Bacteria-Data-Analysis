@@ -3,9 +3,9 @@
 function result = dataStatistics(data,statistic);
 
 % T er temeratur vektor 
-T=data(:,1);
+T=data{:,1};
 % G er growth vektor
-G=data(:,2);
+G=data{:,2};
 
 
 % Den relevante statestik vælges og udregnes
@@ -23,7 +23,7 @@ switch statistic
         result=std(G);
         
     case 'Rows' 
-        result=length(T);
+        [result, ~]= size(T);
         
     case 'Mean Cold Growth rate'
         % Temp>20 fjernes
