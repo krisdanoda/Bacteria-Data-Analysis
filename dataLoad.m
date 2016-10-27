@@ -10,6 +10,8 @@ if fid == -1
 else
     table = readtable(filename);
 
+    %replace number with bacteria names
+
     % find temperetures outside of range
 
     tindex = table{:,1}>60 | table{:,1}<10;
