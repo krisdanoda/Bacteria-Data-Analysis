@@ -111,7 +111,7 @@ while true
             case 3
                 %% Data Statistics
                 
-                sc = menu('Choose what statistic you would like to calculate', 'Mean Temperature', 'Mean Growth rate', 'Std temperature', 'Std Growth', 'Rows', 'Mean Cold Growth rate', 'Mean Hot Growth rate', 'Back')
+                sc = menu('Choose what statistic you would like to calculate', 'Mean Temperature', 'Mean Growth rate', 'Std temperature', 'Std Growth', 'Rows', 'Mean Cold Growth rate', 'Mean Hot Growth rate')
                 
                 if sc == 1
                     statistic = 'Mean Temperature';
@@ -158,4 +158,3 @@ while true
     
 end
 disp('success!')
-clear
