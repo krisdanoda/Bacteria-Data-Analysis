@@ -1,10 +1,9 @@
 
 % Initialise
 fId = -1;
-quitId = -1;
 
-while quitId == -1
-    
+while true
+    %menu
     choice = menu('Choose an option:',  'Load Data', 'Filter Data', 'Data Statistics', 'Generate Plots', 'Quit');
     
     %% error message for when you try to run some of the functions without loading data
@@ -30,13 +29,84 @@ while quitId == -1
                     image(error);
                 else
                     data = dataLoad(filename);
+                    olddata = data;
                 end
                 
             case 2
                 %% Filter
-                disp('This option is unavailable at the moment');
-                roadblock= imread('Bugs.jpg');
-                image(roadblock);
+                
+              
+                InOp=true;
+                
+                while InOp == true
+                    InOp=false;
+                    
+                    % Vælg hvad der skal filtreres
+                    Filter = input('Please type "BacteriaType", "Growth rate" or "No filter" depending on what you wish to filter: ','s');
+                    
+                    % Bakterie sortering
+                    if strcmp(lower(Filter),'bacteriatype')
+                        BacType = input('Please enter the bacteria type you wish to work with: ','s');
+                        if strcmp(lower(BacType),'salmonella enterica')
+                            sal = data{:,3} == 1;
+                            data=data{sal,:};
+                        elseif strcmp(lower(BacType),'bacillus cereus')
+                            bac = data{:,3} == 2;
+                            data=data{bac,:};
+                        elseif strcmp(lower(BacType),'listeria')
+                            lis = data{:,3} == 3;
+                            data=data{lis,:};
+                        elseif strcmp(lower(BacType),'brochothrix thermosphacta')
+                            bro = data{:,3} == 3;
+                            data=data(bro,:);
+                        else
+                            disp('Invalid option');
+                            InOp = true;
+                        end
+                        
+                        % Growth rate sortering
+                    elseif strcmp(lower(Filter),'growth rate')
+                        gmin = str2double(input('Please enter the minimum growth rate: ','s'));
+                        gmax = str2double(input('Please enter the maximum growth rate: ','s'));
+                        
+                        if isnan(gmin) || isnan(gmax)
+                            disp('Invalid range')
+                            InOp = true;
+                            
+                        else
+                            if gmin > gmax
+                                gnu=gmax;
+                                gmu=gmin;
+                                gmin=gnu;
+                                gmax=gmu;
+                                
+                            end
+                            % For små data frasorteres
+                            grate = data{:,2} > gmin;
+                            data=data(grate,:);
+                            
+                            % For store data frasorteres
+                            grate = data{:,2} < gmax;
+                            data = data(grate,:);
+                        end
+                        
+                        
+                        % Alle filtre slås fra
+                    elseif strcmp(lower(Filter),'no filter');
+                        data=OldData;
+                        
+                        
+                        % Hvis bruger ikke indtaster rigtigt
+                    else
+                        disp('Invalid option');
+                        InOp = true;
+                        
+                        
+                        % Afslut det store if-statement
+                    end
+                    
+                    % Afslut while-statement
+                end
                 
             case 3
                 %% Data Statistics
@@ -76,16 +146,13 @@ while quitId == -1
                 dataStatistics(data, statistic)
             case 4
                 %% Generate Plots
-                
-                disp('Sorry. Jonathan was crucified before he could finish the function')
-                christ = imread('Christ.jpg');
-                image(christ);
+                dataPlot(data);
                 
             case 5
                 
                 %% Quit (ends the while loop)
                 
-                quitId = 1;
+                break
         end
     end
     

@@ -1,4 +1,4 @@
-%% Filter 
+% Filter 
 OldData=dataLoad('test.txt');
 data=OldData;
 InOp=true;
