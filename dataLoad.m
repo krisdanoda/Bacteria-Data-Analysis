@@ -1,13 +1,5 @@
 function data = dataLoad(filename)
 
-%error message
-    fid = fopen(filename);
-if fid == -1
-        disp('404 file not found');
-        error = imread('error404.jpg');
-        image(error);
-
-else
     table = readtable(filename);
 
     % find temperetures outside of range
@@ -33,6 +25,6 @@ else
     index = table{:,1} < 60 & table{:,1} > 10 & table{:,2} >= 0 & table{:,3} <= 4 & table{:,3} >= 1;
 
     data = table(index,:);
-end
 
+    
 end
