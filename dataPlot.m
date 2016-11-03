@@ -62,11 +62,11 @@ OldData=data;
 figure;
 plot(datasal(:,1),datasal(:,2),'g')
 hold on
-plot(databac,'r')
+plot(databac(:,1),databac(:,2),'b')
 hold on
-plot(datalis,'b')
+plot(datalis(:,1),datalis(:,2),'r')
 hold on
-plot(databro,'k')
+plot(databro(:,1),databro(:,2),'k')
 
 datasal
 datalis
