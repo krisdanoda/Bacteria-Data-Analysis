@@ -60,17 +60,17 @@ OldData=data;
         databro=sortrows(databro,1)
 
 figure;
-plot(datasal(:,1),datasal(:,2),'g')
-hold on
-plot(databac(:,1),databac(:,2),'b')
-hold on
-plot(datalis(:,1),datalis(:,2),'r')
-hold on
-plot(databro(:,1),databro(:,2),'k')
+plot(datasal(:,1),datasal(:,2),'g');
+hold on;
+plot(databac(:,1),databac(:,2),'b');
+hold on;
+plot(datalis(:,1),datalis(:,2),'r');
+hold on;
+plot(databro(:,1),databro(:,2),'k');
+xlabel('Temperature');
+ylabel('Growth Rate');
+title('Growth rate for Temperature of Bacteria')
+legend('Salmonella enterica', 'Bacillus cereus', 'Listeria', 'Brochothrix thermosphacta', 'location', 'south')
 
-datasal
-datalis
-databac
-databro
 % Afslut if-statement    
 end
