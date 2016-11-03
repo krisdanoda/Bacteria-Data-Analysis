@@ -4,10 +4,13 @@ bc=0;
 L=0;
 bt=0;
 
-
-X=data(:,3);
-disp(X)
-for i=1:length(X)
+%Grunden til at X ikke virkede før, at at når vi importerer data fra
+%test.txt bliver det konverteret til 'table' format. Vi skal derfor først
+%omkonvertere det til matrix/vektor format før vi kan bruge det i length
+%funktionen og for funktionen.
+%X=data(:,3);
+X=data{:,3}
+for i=1:length(X);
     if X(i)==1
         s = s+1;
     elseif X(i)==2
@@ -21,5 +24,6 @@ end
 y=[s,bc,L,bt]
 x=[1:4];
 
+bar(x,y)
 
 end
