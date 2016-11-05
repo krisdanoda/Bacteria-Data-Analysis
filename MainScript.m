@@ -33,9 +33,8 @@ while true
                 end
                 
             case 2
-                %% Filter
-                
-              
+                    %% Filter
+
                 InOp=true;
                 
                 while InOp == true
@@ -45,20 +44,24 @@ while true
                     Filter = input('Please type "BacteriaType", "Growth rate" or "No filter" depending on what you wish to filter: ','s');
                     
                     % Bakterie sortering
-                    if strcmp(lower(Filter),'bacteriatype')
+                    if strcmpi(Filter,'bacteriatype')
                         BacType = input('Please enter the bacteria type you wish to work with: ','s');
                         if strcmp(lower(BacType),'salmonella enterica')
                             sal = data{:,3} == 1;
-                            data=data{sal,:};
+                            data=data(sal,:);
+                            bacFiltIf = 1;
                         elseif strcmp(lower(BacType),'bacillus cereus')
                             bac = data{:,3} == 2;
-                            data=data{bac,:};
+                            data=data(bac,:);
+                            bacFiltIf = 1;
                         elseif strcmp(lower(BacType),'listeria')
                             lis = data{:,3} == 3;
-                            data=data{lis,:};
+                            data=data(lis,:);
+                            bacFiltIf = 1;
                         elseif strcmp(lower(BacType),'brochothrix thermosphacta')
                             bro = data{:,3} == 3;
                             data=data(bro,:);
+                            bacFiltIf = 1;
                         else
                             disp('Invalid option');
                             InOp = true;
@@ -70,7 +73,7 @@ while true
                         gmax = str2double(input('Please enter the maximum growth rate: ','s'));
                         
                         if isnan(gmin) || isnan(gmax)
-                            disp('Invalid range')
+                            disp('Invalid range. Range must be numeric.')
                             InOp = true;
                             
                         else
@@ -88,23 +91,20 @@ while true
                             % For store data frasorteres
                             grate = data{:,2} < gmax;
                             data = data(grate,:);
+                            % Range filter Id
+                            rngFiltId = 1;
                         end
-                        
-                        
                         % Alle filtre slås fra
                     elseif strcmp(lower(Filter),'no filter');
-                        data=OldData;
-                        
-                        
+                        data = OldData;
+                        rngFiltId = 0;
+                        bacFiltIf = 0;
                         % Hvis bruger ikke indtaster rigtigt
                     else
                         disp('Invalid option');
                         InOp = true;
-                        
-                        
                         % Afslut det store if-statement
                     end
-                    
                     % Afslut while-statement
                 end
                 
