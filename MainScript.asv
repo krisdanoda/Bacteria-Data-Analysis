@@ -121,12 +121,12 @@ while true
             case 3
                 %% Data Statistics
                 
-                sc = menu('Choose what statistic you would like to calculate', 'Mean Temperature', 'Mean Growth rate', 'Std temperature', 'Std Growth', 'Rows', 'Mean Cold Growth rate', 'Mean Hot Growth rate');
+                sc = menu('Choose what statistic you would like to calculate', 'Mean Temperature', 'Mean Growth rate', 'Std temperature', 'Std Growth', 'Rows', 'Mean Cold Growth rate', 'Mean Hot Growth rate')
                 
                 if sc == 1
                     statistic = 'Mean Temperature';
-                   stat = dataStatistics(data, statistic);
-                    fprintf('Mean Temperature=', stat)
+
+                    disp('Mean Temperature=',dataStatistics(data, statistic))
                 elseif sc == 2
                     
                     statistic = 'Mean Growth rate';
@@ -138,18 +138,18 @@ while true
                 elseif sc == 4
                     
                     statistic = 'Std Growth rate';
-                    disp('Std Growth rate',dataStatistics(data, statistic))
+                    disp('Std Fr',dataStatistics(data, statistic))
                 elseif sc == 5
                     
                     statistic = 'Rows';
-                    disp('Number of Rows=',dataStatistics(data, statistic))
+                    
                 elseif sc == 6
                     
                     statistic = 'Mean Cold Growth rate';
-                    disp('Mean Cold Growth rate=',dataStatistics(data, statistic))
+                    
                 elseif sc == 7
                     statistic = 'Mean Hot Growth rate';
-                    disp('Mean Hot Growth rate=',dataStatistics(data, statistic))
+                    
                 else
                     disp('invalid choice')
                 end
