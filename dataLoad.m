@@ -32,9 +32,8 @@ function data = dataLoad(filename)
     
     % find invalid bacteria type
     
-    bIndex = table{:,3}>4 | table{:,3}<1;
+    bIndex = ~(table{:,3} == 1 | table{:,3} == 2 | table{:,3} == 3 |  table{:,3} == 4);
     if sum(bIndex) > 0
-        table(bIndex,:)
         
         display('Found invalid bacteria indicator(s)')
         
