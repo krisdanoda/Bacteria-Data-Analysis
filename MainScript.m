@@ -1,11 +1,23 @@
 
 % Initialise
 fId = -1;
+rngFiltPrompt = [' '];
+BacType= [' '];
+rngFiltId = 0;
+bacFiltId = 0;
 
 while true
     %menu
     choice = menu('Choose an option:',  'Load Data', 'Filter Data', 'Data Statistics', 'Generate Plots', 'Quit');
+   
+
+     %Filter warning Dialogue box
     
+     if rngFiltId == 1 || bacFiltId == 1
+    
+    msgbox({'The data has the current filters:' rngFiltPrompt upper(BacType)})
+    
+     end
     %% error message for when you try to run some of the functions without loading data
     if fId == -1 && (choice == 2 || choice == 3 || choice == 4)
         disp('This path is unavailable. A snorlax is blocking your path. Come back when you have loaded some data');
@@ -21,7 +33,7 @@ while true
                %% Data Load
                 filename = input('Input filename to load:', 's');
                 
-                %and id to check if there was a file loaded
+                % id to check if there was a file loaded
                 fId = fopen(filename);
                 
                 %looks for the type of file
@@ -30,16 +42,16 @@ while true
                 %can't be found or non .txt files
                 if fId == -1
                     disp('404 file not found');
-                    error = imread('error404.jpg');
-                    image(error);
+                    
+                    
                 elseif strcmp(filetype, '.txt') == false
                     disp('404 wrong filetype \n Can only Load .txt files.')
-                    error = imread('error404.jpg');
-                    image(error)
+                
+                   
                 else
                     %Load the file. It also removes invalid data sets
                     data = dataLoad(filename);
-                    olddata = data;
+                    OldData = data;
                 end
                 
             case 2
@@ -59,19 +71,19 @@ while true
                         if strcmp(lower(BacType),'salmonella enterica')
                             sal = data{:,3} == 1;
                             data=data(sal,:);
-                            bacFiltIf = 1;
+                            bacFiltId = 1;
                         elseif strcmp(lower(BacType),'bacillus cereus')
                             bac = data{:,3} == 2;
                             data=data(bac,:);
-                            bacFiltIf = 1;
+                            bacFiltId = 1;
                         elseif strcmp(lower(BacType),'listeria')
                             lis = data{:,3} == 3;
                             data=data(lis,:);
-                            bacFiltIf = 1;
+                            bacFiltId = 1;
                         elseif strcmp(lower(BacType),'brochothrix thermosphacta')
                             bro = data{:,3} == 3;
                             data=data(bro,:);
-                            bacFiltIf = 1;
+                            bacFiltId = 1;
                         else
                             disp('Invalid option');
                             InOp = true;
@@ -103,13 +115,17 @@ while true
                             data = data(grate,:);
                             % Range filter Id
                             rngFiltId = 1;
+                            rngFiltPrompt = ['Growth Range from:' num2str(gmin) ' to ' num2str(gmax)];
+                            
                         end
                         % Alle filtre slås fra
                     elseif strcmp(lower(Filter),'no filter');
                         data = OldData;
                         rngFiltId = 0;
-                        bacFiltIf = 0;
-                        % Hvis bruger ikke indtaster rigtigt
+                        bacFiltId = 0;
+                        BacType = [' '];
+                       
+% Hvis bruger ikke indtaster rigtigt
                     else
                         disp('Invalid option');
                         InOp = true;
@@ -120,41 +136,44 @@ while true
                 
             case 3
                 %% Data Statistics
+                % A menu that decides the statistic
+                sc = menu('Choose what statistic you would like to calculate', 'Mean Temperature', 'Mean Growth rate', 'Std temperature', 'Std Growth', 'Rows', 'Mean Cold Growth rate', 'Mean Hot Growth rate','Back');
                 
-                sc = menu('Choose what statistic you would like to calculate', 'Mean Temperature', 'Mean Growth rate', 'Std temperature', 'Std Growth', 'Rows', 'Mean Cold Growth rate', 'Mean Hot Growth rate');
-                
+                % A simple if statement. all outcomes runs the function dataStatistics(data, statistic). 
                 if sc == 1
                     statistic = 'Mean Temperature';
-                   stat = dataStatistics(data, statistic);
-                    fprintf('Mean Temperature=', stat)
+               
+                  disp([statistic,'=',num2str( dataStatistics(data, statistic))]);
                 elseif sc == 2
                     
                     statistic = 'Mean Growth rate';
-                    disp('Mean Growth Rate=',dataStatistics(data, statistic))
+                    disp([statistic,'=',num2str( dataStatistics(data, statistic))])
                 elseif sc == 3
                     
                     statistic = 'Std Temperature';
-                    disp('Std Temperature=',dataStatistics(data, statistic))
+                   disp([statistic,'=',num2str( dataStatistics(data, statistic))])
                 elseif sc == 4
                     
                     statistic = 'Std Growth rate';
-                    disp('Std Growth rate',dataStatistics(data, statistic))
+                    disp([statistic,'=',num2str( dataStatistics(data, statistic))])
                 elseif sc == 5
                     
                     statistic = 'Rows';
-                    disp('Number of Rows=',dataStatistics(data, statistic))
+                    disp([statistic,'=',num2str( dataStatistics(data, statistic))])
                 elseif sc == 6
                     
                     statistic = 'Mean Cold Growth rate';
-                    disp('Mean Cold Growth rate=',dataStatistics(data, statistic))
+                    disp([statistic,'=',num2str( dataStatistics(data, statistic))])
                 elseif sc == 7
                     statistic = 'Mean Hot Growth rate';
-                    disp('Mean Hot Growth rate=',dataStatistics(data, statistic))
+                    disp([statistic,'=',num2str( dataStatistics(data, statistic))])
+                elseif sc == 8
+                %back. It doesn't do anything.
+
                 else
                     disp('invalid choice')
                 end
                 
-                dataStatistics(data, statistic)
             case 4
                 %% Generate Plots
                 dataPlot(data);
