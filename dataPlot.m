@@ -70,7 +70,34 @@ plot(databro(:,1),databro(:,2),'k');
 xlabel('Temperature');
 ylabel('Growth Rate');
 title('Growth rate for Temperature of Bacteria');
-legend('Salmonella enterica', 'Bacillus cereus', 'Listeria', 'Brochothrix thermosphacta', 'location', 'south');
+vec=[]
+l1=0
+l2=0
+l3=0
+l4=0
+if length(datasal)>0
+    l1='Salmonella enterica'
+    vec=[vec 'Salmonella enterica']
+else l1=''
+end
+if length(databac)>0
+    l2='Bacillus cereus'
+    vec=[vec 'Bacillus cereus']
+else l2=''
+end
+if length(datalis)>0
+    l3='Listeria'
+    vec=[vec 'Listeria']
+else l3=''
+end
+if length(databro)>0
+    l4='Brochothrix thermosphacta'
+    vec=[vec 'Brochothrix thermosphacta']
+else l4=''
+end
+vec
+
+legend({vec}, 'location', 'south');
 
 % Afslut if-statement    
 end
