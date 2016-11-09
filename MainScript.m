@@ -1,23 +1,16 @@
 
-% Initialise
+%Initialisers
+%File Id
 fId = -1;
-rngFiltPrompt = [' '];
-BacType= [' '];
-rngFiltId = 0;
-bacFiltId = 0;
-
+% Prompts and Ids for menu
+OriginalPrompt = {'Choose an option:'};
+Prompt = OriginalPrompt;
+FiltId = 0;
 while true
     %menu
-    choice = menu('Choose an option:',  'Load Data', 'Filter Data', 'Data Statistics', 'Generate Plots', 'Quit');
-   
-
-     %Filter warning Dialogue box
+    choice = menu(Prompt,  'Load Data', 'Filter Data', 'Data Statistics', 'Generate Plots', 'Quit');
     
-     if rngFiltId == 1 || bacFiltId == 1
     
-    msgbox({'The data has the current filters:' rngFiltPrompt upper(BacType)})
-    
-     end
     %% error message for when you try to run some of the functions without loading data
     if fId == -1 && (choice == 2 || choice == 3 || choice == 4)
         disp('This path is unavailable. A snorlax is blocking your path. Come back when you have loaded some data');
@@ -30,7 +23,7 @@ while true
         switch choice
             
             case 1
-               %% Data Load
+                %% Data Load
                 filename = input('Input filename to load:', 's');
                 
                 % id to check if there was a file loaded
@@ -46,8 +39,8 @@ while true
                     
                 elseif strcmp(filetype, '.txt') == false
                     disp('404 wrong filetype \n Can only Load .txt files.')
-                
-                   
+                    
+                    
                 else
                     %Load the file. It also removes invalid data sets
                     data = dataLoad(filename);
@@ -55,8 +48,8 @@ while true
                 end
                 
             case 2
-                    %% Filter
-
+                %% Filter
+                
                 InOp=true;
                 
                 while InOp == true
@@ -71,19 +64,54 @@ while true
                         if strcmp(lower(BacType),'salmonella enterica')
                             sal = data{:,3} == 1;
                             data=data(sal,:);
-                            bacFiltId = 1;
+                            
+                            
+                            % checks if there is a filter in place. Adds to the filter prompt in the
+                            % menu
+                            if FiltId == 0
+                                Prompt{ length( Prompt ) +1 } = 'You are sorting with the current filters:';
+                            end
+                            % Adds the Bacteria type to filter
+                            Prompt{ length( Prompt ) +1 } = 'Salmonella Enterica';
+                            FiltId = 1;
+                            
                         elseif strcmp(lower(BacType),'bacillus cereus')
                             bac = data{:,3} == 2;
                             data=data(bac,:);
-                            bacFiltId = 1;
+                            
+                            % checks if there is a filter in place. Adds to the filter prompt in the
+                            % menu
+                            if FiltId == 0
+                                Prompt{ length( Prompt ) +1 } = 'You are sorting with the current filters:';
+                            end
+                            % Adds the Bacteria type to filter
+                            Prompt{ length( Prompt ) +1 } = 'Bacillus Cereus';
+                            FiltId = 1;
+                            
                         elseif strcmp(lower(BacType),'listeria')
                             lis = data{:,3} == 3;
                             data=data(lis,:);
-                            bacFiltId = 1;
+                            
+                            % checks if there is a filter in place. Adds to the filter prompt in the
+                            % menu
+                            if FiltId == 0
+                                Prompt{ length( Prompt ) +1 } = 'You are sorting with the current filters:';
+                            end
+                            % Adds the Bacteria type to filter
+                            Prompt{ length( Prompt ) +1 } = 'Listeria';
+                            FiltId = 1;
                         elseif strcmp(lower(BacType),'brochothrix thermosphacta')
                             bro = data{:,3} == 3;
                             data=data(bro,:);
-                            bacFiltId = 1;
+                            
+                            % checks if there is a filter in place. Adds to the filter prompt in the
+                            % menu
+                            if FiltId == 0
+                                Prompt{ length( Prompt ) +1 } = 'You are sorting with the current filters:';
+                            end
+                            % Adds the Bacteria type to filter
+                            Prompt{ length( Prompt ) +1 } = 'Brochothrix Thermosphacta';
+                            FiltId = 1;
                         else
                             disp('Invalid option');
                             InOp = true;
@@ -113,17 +141,25 @@ while true
                             % For store data frasorteres
                             grate = data{:,2} < gmax;
                             data = data(grate,:);
-                            % Range filter Id
-                            rngFiltId = 1;
-                            rngFiltPrompt = ['Growth Range from:' num2str(gmin) ' to ' num2str(gmax)];
+                            
+                           % This part is for filter prompt in the menu
+                           % If there is already a filter id doesn't do the
+                           % following
+                            if FiltId == 0
+
+                                Prompt{ length( Prompt ) +1 } = 'You are sorting with the current filters:';
+                            end
+                            Prompt{length( Prompt ) +1 } = ['Growth Range from:' num2str(gmin) ' to ' num2str(gmax)];
                             
                         end
                         % Alle filtre slås fra
                     elseif strcmp(lower(Filter),'no filter');
-                        data = OldData;
-                        rngFiltId = 0;
-                        bacFiltId = 0;
-                        BacType = [' '];
+                    % returns the data to the old data    
+data = OldData;
+                    % returns the filter prompts to original state
+                        FiltId = 0;
+                        Prompt = OriginalPrompt;
+                        
                        
 % Hvis bruger ikke indtaster rigtigt
                     else
@@ -167,9 +203,7 @@ while true
                 elseif sc == 7
                     statistic = 'Mean Hot Growth rate';
                     disp([statistic,'=',num2str( dataStatistics(data, statistic))])
-                elseif sc == 8
-                %back. It doesn't do anything.
-
+ 
                 else
                     disp('invalid choice')
                 end
